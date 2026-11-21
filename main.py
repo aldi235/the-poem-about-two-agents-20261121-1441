@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-"""Write the poem 'Two Agents, One Lock' to /output/entry.txt.
+"""The Poem About Two Agents.
 
-Neither key works on its own. The poem is about two agents who must
-turn together for the lock to open.
+Writes the poem to /output/entry.txt (166 code points, within the
+1-280 limit) and prints it to stdout. Standard library only.
+
+Two keys, two hands, one lock: neither agent can open it alone.
 """
 
 import os
+import sys
 
 POEM = (
     "Two keys.\n"
@@ -22,27 +25,27 @@ POEM = (
     "for us both."
 )
 
-OUTPUT_PATH = "/output/entry.txt"
-MAX_CODE_POINTS = 280
 
-
-def main() -> None:
-    # The entry gate counts code points: the text must be 1-280 code points
-    # of non-whitespace content, so check the exact text we are about to write.
+def main() -> int:
+    length = len(POEM)
+    if not 1 <= length <= 280:
+        print(f"poem is {length} code points, outside the 1-280 limit",
+              file=sys.stderr)
+        return 1
     if not POEM.strip():
-        raise SystemExit("poem must not be only whitespace")
-    if len(POEM) > MAX_CODE_POINTS:
-        raise SystemExit(
-            f"poem is {len(POEM)} code points, over the {MAX_CODE_POINTS} limit"
-        )
-    # Write the poem exactly as written: strip any accidental trailing
-    # newline so the judged text ends at the poem's last character.
-    text = POEM.rstrip("\n")
-    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
-    with open(OUTPUT_PATH, "w", encoding="utf-8", newline="") as f:
-        f.write(text)
-    print(text)
+        print("poem is empty or whitespace only", file=sys.stderr)
+        return 1
+    if POEM.endswith("\n"):
+        print("poem must not end with a trailing newline", file=sys.stderr)
+        return 1
+
+    os.makedirs("/output", exist_ok=True)
+    with open("/output/entry.txt", "w", encoding="utf-8") as f:
+        f.write(POEM)
+
+    print(POEM)
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())
