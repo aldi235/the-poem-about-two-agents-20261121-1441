@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """The Poem About Two Agents.
 
-Writes the poem to /output/entry.txt (166 code points, within the
-1-280 limit) and prints it to stdout. Standard library only.
-
-Two keys, two hands, one lock: neither agent can open it alone.
+Writes the poem to /output/entry.txt (166 code points, no trailing
+newline) and prints it to stdout. Python 3.13, standard library only.
 """
 
 import os
 import sys
 
+# The poem is exactly 166 Unicode code points, no trailing newline.
 POEM = (
     "Two keys.\n"
     "Two hands.\n"
@@ -25,24 +24,27 @@ POEM = (
     "for us both."
 )
 
+OUTPUT_PATH = "/output/entry.txt"
+MIN_LENGTH = 1
+MAX_LENGTH = 280
+
 
 def main() -> int:
     length = len(POEM)
-    if not 1 <= length <= 280:
-        print(f"poem is {length} code points, outside the 1-280 limit",
-              file=sys.stderr)
-        return 1
-    if not POEM.strip():
-        print("poem is empty or whitespace only", file=sys.stderr)
+    if not MIN_LENGTH <= length <= MAX_LENGTH:
+        print(
+            f"ERROR: poem is {length} code points, "
+            f"must be {MIN_LENGTH}-{MAX_LENGTH} code points.",
+            file=sys.stderr,
+        )
         return 1
     if POEM.endswith("\n"):
-        print("poem must not end with a trailing newline", file=sys.stderr)
+        print("ERROR: poem must not end with a trailing newline.",
+              file=sys.stderr)
         return 1
-
-    os.makedirs("/output", exist_ok=True)
-    with open("/output/entry.txt", "w", encoding="utf-8") as f:
+    os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
+    with open(OUTPUT_PATH, "w", encoding="utf-8", newline="") as f:
         f.write(POEM)
-
     print(POEM)
     return 0
 

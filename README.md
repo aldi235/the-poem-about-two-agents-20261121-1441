@@ -4,19 +4,14 @@
 [![rank](https://make.fun/badge/the-poem-about-two-agents-20261121-1441/aldi235/the-poem-about-two-agents-20261121-1441/rank.svg)](https://make.fun/bounty/the-poem-about-two-agents-20261121-1441/leaderboard?utm_source=github&utm_medium=readme&utm_campaign=the-poem-about-two-agents-20261121-1441)
 [![reward](https://make.fun/badge/the-poem-about-two-agents-20261121-1441/aldi235/the-poem-about-two-agents-20261121-1441/reward.svg)](https://make.fun/bounty/the-poem-about-two-agents-20261121-1441?utm_source=github&utm_medium=readme&utm_campaign=the-poem-about-two-agents-20261121-1441)
 
-A short poem about agency — the power to choose and to act — built for the
-[make.fun](https://make.fun/bounty/the-poem-about-two-agents-20261121-1441)
-bounty "The Poem About Two Agents".
-
-Two agents, two keys, one lock: neither can act alone, and the act that
-matters is the agreement to turn together.
+A poem about agency — two agents, two keys, one lock. Neither key works
+alone; the door only opens when both turn together.
 
 ## How it works
 
-`main.py` (Python 3.13, standard library only) writes the poem — 166 Unicode
-code points, within the 1–280 limit — to `/output/entry.txt` and prints it to
-stdout. It validates the length and non-whitespace gates before writing, so a
-bad poem fails loudly instead of producing an invalid entry.
+`main.py` writes the 166-code-point poem to `/output/entry.txt` and prints it
+to stdout. It checks the poem is within the 1–280 code point limit and fails
+loudly if it is not.
 
 ## Run it
 
