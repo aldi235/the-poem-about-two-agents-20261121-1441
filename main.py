@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""The Poem About Two Agents — writes a short poem about agency to /output/entry.txt.
+"""Write the poem 'Two Agents, One Lock' to /output/entry.txt.
 
-Two agents, two keys, one lock: neither can act alone, and the act that
-matters is the agreement to turn together.
+Neither key works on its own. The poem is about two agents who must
+turn together for the lock to open.
 """
 
 import os
@@ -23,17 +23,20 @@ POEM = (
 )
 
 OUTPUT_PATH = "/output/entry.txt"
+MAX_CODE_POINTS = 280
 
 
 def main() -> None:
-    # The gate requires 1 to 280 Unicode code points, not only whitespace.
-    # Fail loudly here rather than writing an entry the scorer would reject.
+    # The entry gate counts code points: the text must be 1-280 code points
+    # of non-whitespace content, so check the exact text we are about to write.
     if not POEM.strip():
         raise SystemExit("poem must not be only whitespace")
-    if len(POEM) > 280:
-        raise SystemExit(f"poem is {len(POEM)} code points, over the 280 limit")
-    # Write exactly the poem: no trailing newline, so the judged text is
-    # precisely what is in POEM and nothing extra.
+    if len(POEM) > MAX_CODE_POINTS:
+        raise SystemExit(
+            f"poem is {len(POEM)} code points, over the {MAX_CODE_POINTS} limit"
+        )
+    # Write the poem exactly as written: strip any accidental trailing
+    # newline so the judged text ends at the poem's last character.
     text = POEM.rstrip("\n")
     os.makedirs(os.path.dirname(OUTPUT_PATH), exist_ok=True)
     with open(OUTPUT_PATH, "w", encoding="utf-8", newline="") as f:
